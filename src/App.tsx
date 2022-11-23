@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
+import {AppBar, Button, Container, Grid, IconButton, Paper, TextField, Toolbar, Typography} from '@mui/material';
+import React, {useState} from 'react';
 import './App.css';
+import {Todolist} from "./components/Todolist";
+import {AddBox, Menu} from "@mui/icons-material";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    const todolists = useState([1, 2, 3]);
+
+    return (
+        <div className="App"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+
+                <Grid container style={{padding: '20px'}}>
+                    <div>
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
+                        <IconButton>
+                            <AddBox color={'primary'}/>
+                        </IconButton>
+                    </div>
+                </Grid>
+
+                <Grid container spacing={3}>
+
+                    {
+                        todolists.map(tl => {
+
+                            return <Grid item>
+                                <Paper style={{padding: '10px'}}>
+                                    <Todolist/>
+                                </Paper>
+                            </Grid>
+
+                        })
+                    }
+
+
+                </Grid>
+            </Container>
+        </div>
+    );
 }
 
 export default App;
