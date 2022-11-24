@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
 import {AddBox, Menu} from "@mui/icons-material";
+import {AddItemForm} from "./components/AddItemForm";
 
 
 function App() {
@@ -25,12 +26,7 @@ function App() {
             <Container fixed>
 
                 <Grid container style={{padding: '20px'}}>
-                    <div>
-                        <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
-                        <IconButton>
-                            <AddBox color={'primary'}/>
-                        </IconButton>
-                    </div>
+                    <AddItemForm/>
                 </Grid>
 
                 <Grid container spacing={3}>

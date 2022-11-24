@@ -1,6 +1,7 @@
 import React from 'react';
-import {Checkbox, IconButton, TextField} from "@mui/material";
+import {Button, Checkbox, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
+import {AddItemForm} from "./AddItemForm";
 
 export const Todolist = () => {
 
@@ -17,17 +18,10 @@ export const Todolist = () => {
                     <Delete/>
                 </IconButton>
             </h3>
-            <div>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
-                <IconButton
-                    // onClick={{}}
-                >
-                    <AddBox color={'primary'}/>
-                </IconButton>
-            </div>
-
+            <AddItemForm/>
             {Tasks.map(() => {
-                return (<div style={{display: 'flex', margin: '15px 0'}}>
+                return (
+                    <div style={{display: 'flex', margin: '15px 0'}}>
                         <Checkbox/>
                         <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
                         <IconButton>
@@ -36,6 +30,24 @@ export const Todolist = () => {
                     </div>
                 )
             })}
+            <div style={{paddingTop: '10px'}}>
+                <Button
+                    //variant={props.filter === 'all' ? 'outlined' : 'text'}
+                    //onClick={onAllClickHandler}
+                    color={'inherit'}
+                >All
+                </Button>
+                <Button
+                    //variant={props.filter === 'active' ? 'outlined' : 'text'}
+                    //onClick={onActiveClickHandler}
+                    color={'primary'}>Active
+                </Button>
+                <Button
+                    //variant={props.filter === 'completed' ? 'outlined' : 'text'}
+                    //onClick={onCompletedClickHandler}
+                    color={'secondary'}>Completed
+                </Button>
+            </div>
         </div>
     )
 };
