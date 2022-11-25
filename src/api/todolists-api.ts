@@ -1,3 +1,21 @@
+
+
+//type
+
+export type TodolistType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+}
+export type ResponseType<D = {}> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: D
+}
+
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -25,7 +43,16 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+}
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
 }

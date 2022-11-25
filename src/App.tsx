@@ -1,13 +1,18 @@
-import {AppBar, Button, Container, Grid, IconButton, Paper, TextField, Toolbar, Typography} from '@mui/material';
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
-import {AddBox, Menu} from "@mui/icons-material";
+import {Menu} from "@mui/icons-material";
 import {AddItemForm} from "./components/AddItemForm";
+import {TaskType} from "./api/todolists-api";
 
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
 
 function App() {
     const todolists = useState([1, 2, 3]);
+
 
     return (
         <div className="App"
