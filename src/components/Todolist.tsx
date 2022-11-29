@@ -1,20 +1,33 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Checkbox, IconButton, TextField} from "@mui/material";
 import {AddBox, Delete} from "@mui/icons-material";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
-export const Todolist = () => {
+type PropsType = {
+    id: string
+    removeTodolist: (id: string) => void
+    title: string
+    changeTodolistTitle: (id:string, title:string)=> void
+}
+
+export const Todolist = (props: PropsType) => {
 
     let Tasks = ['task', "task", "task"]
+
+    const removeTodolist = () => {
+        props.removeTodolist(props.id)
+    }
+    const changeTodolistTitle = useCallback((title: string) => {
+        props.changeTodolistTitle(props.id, title)
+    }, [props.id, props.changeTodolistTitle])
 
     return (
         <div style={{width: '300px'}}>
             <h3>
-                {/*<EditableSpan />*/}
-                Name List
-                <IconButton
-                    // onClick={{}}
-                >
+                <EditableSpan value={props.title} onChange={changeTodolistTitle}/>
+
+                <IconButton onClick={removeTodolist}>
                     <Delete/>
                 </IconButton>
             </h3>

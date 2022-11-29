@@ -10,7 +10,6 @@ export type TasksStateType = {
 }
 
 function App() {
-
     return (
         <div className="App">
             <AppBar position="static">
