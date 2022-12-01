@@ -13,7 +13,7 @@ type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void
 }
 
-const Task = (props: TaskPropsType) => {
+export const Task = (props: TaskPropsType) => {
 
     const TaskStatuses = {
         Completed: ''
@@ -26,6 +26,9 @@ const Task = (props: TaskPropsType) => {
     const onTitleChangeHandler = () => {
 
     }
+    const onChangeHandler = () => {
+
+    }
 
     return (
         <div
@@ -34,7 +37,7 @@ const Task = (props: TaskPropsType) => {
             <Checkbox
                 //checked={props.task.status === TaskStatuses.Completed}
                 color="primary"
-                //onChange={onChangeHandler}
+                onChange={onChangeHandler}
             />
 
             <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
@@ -44,5 +47,3 @@ const Task = (props: TaskPropsType) => {
         </div>
     );
 };
-
-export default Task;

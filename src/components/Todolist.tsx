@@ -1,19 +1,28 @@
-import React, {useCallback} from 'react';
-import {Button, Checkbox, IconButton, TextField} from "@mui/material";
-import {AddBox, Delete} from "@mui/icons-material";
+import React, {useCallback, useEffect} from 'react';
+import {Button, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {TaskStatuses, TaskType} from "../api/todolists-api";
+import {Task} from "./Task";
+import {useAppDispatch} from "../state/store";
+import {addTaskTC, fetchTaskTC} from "../state/tasks-reducer";
 
 type PropsType = {
     id: string
-    removeTodolist: (id: string) => void
+    tasks: Array<TaskType>
     title: string
-    changeTodolistTitle: (id:string, title:string)=> void
+    removeTodolist: (id: string) => void
+    changeTodolistTitle: (id: string, title: string) => void
 }
 
 export const Todolist = (props: PropsType) => {
 
-    let Tasks = ['task', "task", "task"]
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTaskTC(props.id))
+    }, [])
 
     const removeTodolist = () => {
         props.removeTodolist(props.id)
@@ -21,6 +30,19 @@ export const Todolist = (props: PropsType) => {
     const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title)
     }, [props.id, props.changeTodolistTitle])
+
+    const addTask = useCallback((title: string) => {
+        dispatch(addTaskTC(props.id, title))
+    }, [])
+    const removeTask = (taskId: string, todolistId: string) => {
+
+    }
+    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+
+    }
+    const changeTaskStatus = (id: string, status: TaskStatuses, todolistId: string) => {
+
+    }
 
     return (
         <div style={{width: '300px'}}>
@@ -31,16 +53,17 @@ export const Todolist = (props: PropsType) => {
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm/>
-            {Tasks.map(() => {
+            <AddItemForm addItem={addTask}/>
+            {props.tasks && props.tasks.map((t) => {
                 return (
-                    <div style={{display: 'flex', margin: '15px 0'}}>
-                        <Checkbox/>
-                        <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
-                        <IconButton>
-                            <Delete/>
-                        </IconButton>
-                    </div>
+                    <Task
+                        key={t.id}
+                        task={t}
+                        todolistId={props.id}
+                        removeTask={removeTask}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTaskStatus={changeTaskStatus}
+                    />
                 )
             })}
             <div style={{paddingTop: '10px'}}>

@@ -1,4 +1,7 @@
 import {TasksStateType} from "../App";
+import {AddTodolistActionType, setTodolistsActionType} from "./todolists-reducer";
+import {Dispatch} from "redux";
+import {TaskType, todolistsAPI} from "../api/todolists-api";
 
 
 const initialState: TasksStateType = {
@@ -22,13 +25,52 @@ const initialState: TasksStateType = {
 }
 
 
-//export const tasksReducer = (state: TasksStateType = initialState, action: any) => {
-export const tasksReducer = (state: any = initialState, action: any) => {
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType) => {
     switch (action.type) {
+        case 'SET-TODOLISTS': {
+            const copyState = {...state}
+            action.todolists.forEach(tl => {
+                copyState[tl.id] = []
+            })
+            return copyState
+        }
+        case 'SET-TASK': {
+            return {...state, [action.todolistId]: action.task}
+        }
+        case 'ADD-TODOLIST': {
+            return {...state, [action.todolist.id]: []}
+        }
         case 'ADD-TASK': {
-            return state
+            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
         default:
             return state;
     }
 }
+//action
+export const setTaskAC = (todolistId: string, task: TaskType[]) => ({type: 'SET-TASK', todolistId, task} as const)
+export const addTaskAC = (task: TaskType) => ({type: 'ADD-TASK', task} as const)
+//thunk
+export const fetchTaskTC = (todolistId: string) => {
+    return (dispatch: Dispatch<ActionsType>) => {
+        todolistsAPI.getTasks(todolistId)
+            .then((res) => {
+                dispatch(setTaskAC(todolistId, res.data.items))
+            })
+    }
+}
+
+export const addTaskTC = (todolistId: string, title: string) => {
+    return (dispatch: Dispatch<ActionsType>) => {
+        todolistsAPI.createTask(todolistId, title)
+            .then((res) => {
+                dispatch(addTaskAC(res.data.data.item))
+            })
+    }
+}
+//type
+type ActionsType =
+    | setTodolistsActionType
+    | AddTodolistActionType
+    | ReturnType<typeof setTaskAC>
+    | ReturnType<typeof addTaskAC>
