@@ -6,7 +6,7 @@ import {EditableSpan} from "./EditableSpan";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 import {Task} from "./Task";
 import {useAppDispatch} from "../state/store";
-import {addTaskTC, fetchTaskTC} from "../state/tasks-reducer";
+import {addTaskTC, fetchTaskTC, removeTaskTC, updateTaskTC} from "../state/tasks-reducer";
 
 type PropsType = {
     id: string
@@ -35,13 +35,13 @@ export const Todolist = (props: PropsType) => {
         dispatch(addTaskTC(props.id, title))
     }, [])
     const removeTask = (taskId: string, todolistId: string) => {
-
+        dispatch(removeTaskTC(todolistId, taskId))
     }
-    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
-
+    const changeTaskTitle = (taskId: string, title: string, todolistId: string) => {
+        dispatch(updateTaskTC(todolistId, taskId, {title}))
     }
     const changeTaskStatus = (id: string, status: TaskStatuses, todolistId: string) => {
-
+        dispatch(updateTaskTC(todolistId, id, {status}))
     }
 
     return (
