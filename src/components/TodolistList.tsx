@@ -2,9 +2,9 @@ import React, {useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@mui/material";
 import {Todolist} from "./Todolist";
 import {
-    addTodolistTC,
+    addTodolistTC, changeTodolistFilterAC,
     changeTodolistTitleTC,
-    fetchTodolistsTC,
+    fetchTodolistsTC, FilterValuesType,
     removeTodolistTC,
     TodolistDomainType
 } from "../state/todolists-reducer";
@@ -22,6 +22,9 @@ export const TodolistList = () => {
         dispatch(fetchTodolistsTC())
     }, [])
 
+    const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
+        dispatch(changeTodolistFilterAC(todolistId, value))
+    }, [])
 
     const removeTodolist = useCallback(function (id: string) {
 
@@ -50,6 +53,8 @@ export const TodolistList = () => {
                             <Todolist
                                 id={tl.id}
                                 title={tl.title}
+                                filter={tl.filter}
+                                changeFilter={changeFilter}
                                 tasks={allTodolistTasks}
                                 removeTodolist={removeTodolist}
                                 changeTodolistTitle={changeTodolistTitle}

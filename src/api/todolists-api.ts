@@ -34,7 +34,6 @@ export const todolistsAPI = {
         return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title});
     },
 
-
 }
 //type
 export type TodolistType = {
