@@ -13,13 +13,15 @@ type PropsType = {
     id: string
     tasks: Array<TaskType>
     title: string
+    addTask: (id:string, title: string) =>void
+    removeTask:(taskId: string, todolistId: string) =>void
     filter: FilterValuesType
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, title: string) => void
 }
 
-export const Todolist = (props: PropsType) => {
+export const Todolist = React.memo((props: PropsType) => {
 
     const dispatch = useAppDispatch()
 
@@ -30,16 +32,15 @@ export const Todolist = (props: PropsType) => {
     const removeTodolist = () => {
         props.removeTodolist(props.id)
     }
+
     const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title)
     }, [props.id, props.changeTodolistTitle])
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskTC(props.id, title))
-    }, [])
-    const removeTask = (taskId: string, todolistId: string) => {
-        dispatch(removeTaskTC(todolistId, taskId))
-    }
+        props.addTask(props.id, title)
+    }, [props.addTask, props.id])
+
     const changeTaskTitle = (taskId: string, title: string, todolistId: string) => {
         dispatch(updateTaskTC(todolistId, taskId, {title}))
     }
@@ -64,7 +65,6 @@ export const Todolist = (props: PropsType) => {
         <div style={{width: '300px'}}>
             <h3>
                 <EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-
                 <IconButton onClick={removeTodolist}>
                     <Delete/>
                 </IconButton>
@@ -76,7 +76,7 @@ export const Todolist = (props: PropsType) => {
                         key={t.id}
                         task={t}
                         todolistId={props.id}
-                        removeTask={removeTask}
+                        removeTask={props.removeTask}
                         changeTaskTitle={changeTaskTitle}
                         changeTaskStatus={changeTaskStatus}
                     />
@@ -101,4 +101,4 @@ export const Todolist = (props: PropsType) => {
             </div>
         </div>
     )
-};
+});

@@ -11,8 +11,9 @@ import {
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {AddItemForm} from "./AddItemForm";
 import {TasksStateType} from "../App";
+import {addTaskTC, removeTaskTC} from "../state/tasks-reducer";
 
-export const TodolistList = () => {
+export const TodolistList = React.memo(() => {
 
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
@@ -39,6 +40,14 @@ export const TodolistList = () => {
         dispatch(addTodolistTC(title))
     }, [])
 
+    const addTask = useCallback((id:string, title: string) => {
+        dispatch(addTaskTC(id, title))
+    }, [])
+
+    const removeTask = useCallback((taskId: string, todolistId: string) => {
+        dispatch(removeTaskTC(todolistId, taskId))
+    },[])
+
     return (
         <div>
             <Grid container style={{padding: '20px'}}>
@@ -54,6 +63,8 @@ export const TodolistList = () => {
                                 id={tl.id}
                                 title={tl.title}
                                 filter={tl.filter}
+                                addTask={addTask}
+                                removeTask={removeTask}
                                 changeFilter={changeFilter}
                                 tasks={allTodolistTasks}
                                 removeTodolist={removeTodolist}
@@ -65,4 +76,4 @@ export const TodolistList = () => {
             </Grid>
         </div>
     );
-};
+});
