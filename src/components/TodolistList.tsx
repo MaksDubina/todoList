@@ -11,7 +11,8 @@ import {
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {AddItemForm} from "./AddItemForm";
 import {TasksStateType} from "../App";
-import {addTaskTC, removeTaskTC} from "../state/tasks-reducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "../state/tasks-reducer";
+import {TaskStatuses} from "../api/todolists-api";
 
 export const TodolistList = React.memo(() => {
 
@@ -48,6 +49,14 @@ export const TodolistList = React.memo(() => {
         dispatch(removeTaskTC(todolistId, taskId))
     },[])
 
+    const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
+        dispatch(updateTaskTC(todolistId, taskId, {title}))
+    },[])
+
+    const changeTaskStatus = (id: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskTC(todolistId, id, {status}))
+    }
+
     return (
         <div>
             <Grid container style={{padding: '20px'}}>
@@ -69,6 +78,8 @@ export const TodolistList = React.memo(() => {
                                 tasks={allTodolistTasks}
                                 removeTodolist={removeTodolist}
                                 changeTodolistTitle={changeTodolistTitle}
+                                changeTaskTitle={changeTaskTitle}
+                                changeTaskStatus={changeTaskStatus}
                             />
                         </Paper>
                     </Grid>
