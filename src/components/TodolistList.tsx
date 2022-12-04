@@ -29,7 +29,6 @@ export const TodolistList = React.memo(() => {
     }, [])
 
     const removeTodolist = useCallback(function (id: string) {
-
         dispatch(removeTodolistTC(id))
     }, [])
 
@@ -41,21 +40,21 @@ export const TodolistList = React.memo(() => {
         dispatch(addTodolistTC(title))
     }, [])
 
-    const addTask = useCallback((id:string, title: string) => {
+    const addTask = useCallback((id: string, title: string) => {
         dispatch(addTaskTC(id, title))
     }, [])
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {
         dispatch(removeTaskTC(todolistId, taskId))
-    },[])
+    }, [])
 
     const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
         dispatch(updateTaskTC(todolistId, taskId, {title}))
-    },[])
+    }, [])
 
-    const changeTaskStatus = (id: string, status: TaskStatuses, todolistId: string) => {
+    const changeTaskStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
         dispatch(updateTaskTC(todolistId, id, {status}))
-    }
+    },[])
 
     return (
         <div>
