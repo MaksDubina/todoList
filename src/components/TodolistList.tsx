@@ -8,9 +8,9 @@ import {
     removeTodolistTC,
     TodolistDomainType
 } from "../state/todolists-reducer";
-import {useAppDispatch, useAppSelector} from "../state/store";
+import {useAppDispatch, useAppSelector} from "../app/store";
 import {AddItemForm} from "./AddItemForm";
-import {TasksStateType} from "../App";
+import {TasksStateType} from "../app/App";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "../state/tasks-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 

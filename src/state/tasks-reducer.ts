@@ -1,8 +1,9 @@
-import {TasksStateType} from "../App";
+import {TasksStateType} from "../app/App";
 import {AddTodolistActionType, setTodolistsActionType} from "./todolists-reducer";
 import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
-import {AppRootStateType} from "./store";
+import {AppRootStateType} from "../app/store";
+import {setAppStatusAC, SetAppStatusActionType} from "../app/app-reducer";
 
 
 const initialState: TasksStateType = {
@@ -69,10 +70,12 @@ export const updateTaskAC = (todolistId: string, taskId: string, domainModel: Up
 export const removeTaskAC = (todolistId: string, taskId: string) => ({type: 'REMOVE-TASK', todolistId, taskId} as const)
 //thunk
 export const fetchTaskTC = (todolistId: string) => {
-    return (dispatch: Dispatch<ActionsType>) => {
+    return (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTasks(todolistId)
             .then((res) => {
                 dispatch(setTaskAC(todolistId, res.data.items))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -113,10 +116,12 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
     }
 }
 export const removeTaskTC = (todolistId: string, taskId: string) => {
-    return (dispatch: Dispatch<ActionsType>) => {
+    return (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.deleteTask(todolistId, taskId)
             .then(()=> {
                 dispatch(removeTaskAC(todolistId, taskId))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -130,6 +135,7 @@ export type UpdateDomainTaskModelType = {
     startDate?: string
     deadline?: string
 }
+type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType>
 type ActionsType =
     | setTodolistsActionType
     | AddTodolistActionType

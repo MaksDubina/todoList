@@ -5,7 +5,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 import {Task} from "./Task";
-import {useAppDispatch} from "../state/store";
+import {useAppDispatch} from "../app/store";
 import {fetchTaskTC} from "../state/tasks-reducer";
 import {FilterValuesType} from "../state/todolists-reducer";
 
