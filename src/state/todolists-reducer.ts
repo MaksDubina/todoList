@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {
     RequestStatusType,
     setAppErrorAC,
-    setAppErrorACType,
+    SetAppErrorACType,
     setAppStatusAC,
     SetAppStatusActionType
 } from "../app/app-reducer";
@@ -97,13 +97,13 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType
 }
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
-export type setTodolistsActionType = ReturnType<typeof setTodolistsAC>
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | setAppErrorACType>
+export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorACType>
 type ActionsType =
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistEntityStatusAC>
     | AddTodolistActionType
-    | setTodolistsActionType
+    | SetTodolistsActionType
 
