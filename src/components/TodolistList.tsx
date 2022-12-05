@@ -68,9 +68,11 @@ export const TodolistList = React.memo(() => {
                     return <Grid item>
                         <Paper style={{padding: '10px'}}>
                             <Todolist
-                                id={tl.id}
-                                title={tl.title}
-                                filter={tl.filter}
+                                todolist={tl}
+                                //entityStatus={tl.entityStatus}
+                                //id={tl.id}
+                                //title={tl.title}
+                                //filter={tl.filter}
                                 addTask={addTask}
                                 removeTask={removeTask}
                                 changeFilter={changeFilter}
