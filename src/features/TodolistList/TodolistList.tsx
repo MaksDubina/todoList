@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@mui/material";
-import {Todolist} from "./Todolist";
+import {Todolist} from "./Todolist/Todolist";
 import {
     addTodolistTC, changeTodolistFilterAC,
     changeTodolistTitleTC,
     fetchTodolistsTC, FilterValuesType,
     removeTodolistTC,
     TodolistDomainType
-} from "../state/todolists-reducer";
-import {useAppDispatch, useAppSelector} from "../app/store";
-import {AddItemForm} from "./AddItemForm";
-import {TasksStateType} from "../app/App";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "../state/tasks-reducer";
-import {TaskStatuses} from "../api/todolists-api";
+} from "./todolists-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {AddItemForm} from "../../components/AddItemForm";
+import {TasksStateType} from "../../app/App";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
+import {TaskStatuses} from "../../api/todolists-api";
 
 export const TodolistList = React.memo(() => {
 

@@ -7,7 +7,7 @@ const instance = axios.create({
         'API-KEY': '7c9b7d99-3407-401a-aee6-a0031aa64327'
     }
 })
-
+// API
 export const todolistsAPI = {
     getTodolists() {
         return instance.get<TodolistType[]>('todo-lists');
@@ -33,9 +33,24 @@ export const todolistsAPI = {
     createTask(todolistId: string, title: string) {
         return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title});
     },
-
 }
+
+export const authAPI = {
+    login(values: LoginParamsType) {
+        //{email:values.email, password:values.password, rememberMe:values.rememberMe, captcha:values.captcha}
+        return instance.post <LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', values);
+    }
+}
+
 //type
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: boolean
+}
+
+
 export type TodolistType = {
     id: string
     title: string
@@ -48,12 +63,14 @@ export type ResponseType<D = {}> = {
     fieldsErrors: Array<string>
     data: D
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -61,6 +78,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type TaskType = {
     description: string
     title: string
