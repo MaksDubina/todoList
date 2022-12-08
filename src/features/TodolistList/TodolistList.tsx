@@ -13,16 +13,23 @@ import {AddItemForm} from "../../components/AddItemForm";
 import {TasksStateType} from "../../app/App";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
+import {Navigate} from "react-router-dom";
 
 export const TodolistList = React.memo(() => {
 
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
 
     useEffect(() => {
+        if (!isLoggedIn){
+            return;
+        }
+
         dispatch(fetchTodolistsTC())
     }, [])
+
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
         dispatch(changeTodolistFilterAC(todolistId, value))
@@ -55,6 +62,10 @@ export const TodolistList = React.memo(() => {
     const changeTaskStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
         dispatch(updateTaskTC(todolistId, id, {status}))
     },[])
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return (
         <div>

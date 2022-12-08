@@ -39,7 +39,14 @@ export const authAPI = {
     login(values: LoginParamsType) {
         //{email:values.email, password:values.password, rememberMe:values.rememberMe, captcha:values.captcha}
         return instance.post <LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', values);
+    },
+    me() {
+        return instance.get<ResponseType<{ id: number, email: string, login: string }>>('/auth/me')
+    },
+    logout() {
+        return instance.delete<ResponseType>('auth/login');
     }
+
 }
 
 //type
