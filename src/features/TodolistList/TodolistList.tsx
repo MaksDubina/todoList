@@ -23,7 +23,7 @@ export const TodolistList = React.memo(() => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        if (!isLoggedIn){
+        if (!isLoggedIn) {
             return;
         }
 
@@ -32,7 +32,7 @@ export const TodolistList = React.memo(() => {
 
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        dispatch(changeTodolistFilterAC(todolistId, value))
+        dispatch(changeTodolistFilterAC({id: todolistId, newFilter: value}))
     }, [])
 
     const removeTodolist = useCallback(function (id: string) {
@@ -61,7 +61,7 @@ export const TodolistList = React.memo(() => {
 
     const changeTaskStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
         dispatch(updateTaskTC(todolistId, id, {status}))
-    },[])
+    }, [])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
