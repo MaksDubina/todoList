@@ -52,7 +52,7 @@ export const TodolistList = React.memo(() => {
     }, [])
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {
-        dispatch(removeTaskTC(todolistId, taskId))
+        dispatch(removeTaskTC({todolistId, taskId}))
     }, [])
 
     const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
