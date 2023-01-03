@@ -36,19 +36,19 @@ export const TodolistList = React.memo(() => {
     }, [])
 
     const removeTodolist = useCallback(function (id: string) {
-        dispatch(removeTodolistTC(id))
+        dispatch(removeTodolistTC({id}))
     }, [])
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(changeTodolistTitleTC(id, title))
+        dispatch(changeTodolistTitleTC({id, title}))
     }, [])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC(title))
+        dispatch(addTodolistTC({title}))
     }, [])
 
-    const addTask = useCallback((id: string, title: string) => {
-        dispatch(addTaskTC(id, title))
+    const addTask = useCallback((todolistId: string, title: string) => {
+        dispatch(addTaskTC({todolistId, title}))
     }, [])
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {
@@ -56,11 +56,11 @@ export const TodolistList = React.memo(() => {
     }, [])
 
     const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
-        dispatch(updateTaskTC(todolistId, taskId, {title}))
+        dispatch(updateTaskTC({todolistId, taskId, domainModel:{title}}))
     }, [])
 
-    const changeTaskStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskTC(todolistId, id, {status}))
+    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskTC({todolistId, taskId, domainModel: {status}}))
     }, [])
 
     if (!isLoggedIn) {
