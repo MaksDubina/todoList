@@ -29,25 +29,29 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {
-                email: '',
-                password: '',
-                rememberMe: false
-            }
             if (!values.email) {
-                errors.email = 'Required'
+                return {
+                    email: 'Email is required'
+                }
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address'
+                return {
+                    email: 'Invalid email address'
+                }
             }
             if (!values.password) {
-                values.password = 'Required'
+                return {
+                    password: 'Required'
+                }
             } else if (values.password.length < 3) {
-                errors.password = 'Invalid password'
+                return {
+                    password: 'Invalid password'
+                }
             }
-            return errors
         },
         onSubmit: async (values: FormikErrorType, formikHelpers: FormikHelpers<FormikErrorType>) => {
+
             const action = await dispatch(loginTC(values))
+            console.log('1111')
             if (loginTC.rejected.match(action)){
                 if (action.payload?.fieldsErrors) {
                     const error = action.payload.fieldsErrors[0]
