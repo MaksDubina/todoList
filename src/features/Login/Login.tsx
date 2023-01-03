@@ -7,15 +7,15 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import {loginTC} from "./auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {Navigate} from "react-router-dom";
 
 type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
+    email: string
+    password: string
+    rememberMe: boolean
 }
 
 export const Login = () => {
@@ -29,7 +29,11 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {}
+            const errors: FormikErrorType = {
+                email: '',
+                password: '',
+                rememberMe: false
+            }
             if (!values.email) {
                 errors.email = 'Required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -42,11 +46,15 @@ export const Login = () => {
             }
             return errors
         },
-        onSubmit: values => {
-            //alert(JSON.stringify(values))
-            //authAPI.login(values).then((res) => console.log(res.data))
-            dispatch(loginTC(values))
-            formik.resetForm()
+        onSubmit: async (values: FormikErrorType, formikHelpers: FormikHelpers<FormikErrorType>) => {
+            const action = await dispatch(loginTC(values))
+            if (loginTC.rejected.match(action)){
+                if (action.payload?.fieldsErrors) {
+                    const error = action.payload.fieldsErrors[0]
+
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
         },
     })
 
