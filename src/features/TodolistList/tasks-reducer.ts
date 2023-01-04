@@ -4,8 +4,7 @@ import {TaskPriorities, TaskStatuses, todolistsAPI, UpdateTaskModelType} from ".
 import {AppRootStateType} from "../../app/store";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {AxiosError} from "axios";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: TasksStateType = {}
 export const fetchTaskTC = createAsyncThunk('tasks/fetchTask', async (todolistId: string, thunkAPI) => {

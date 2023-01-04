@@ -3,6 +3,16 @@ import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "../features/Login/auth-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+export const initializeAppTC = createAsyncThunk('app/initializeApp', async (params, thunkAPI) => {
+    try {
+        const res = await authAPI.me()
+        if (res.data.resultCode === 0) {
+            thunkAPI.dispatch(setIsLoggedInAC({value: true}));
+        } else {
+            handleServerAppError(res.data, thunkAPI.dispatch);
+        }
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios/index";
 
 export const initializeAppTC = createAsyncThunk('app/initializeApp', async (params, thunkAPI) => {
@@ -14,6 +24,20 @@ export const initializeAppTC = createAsyncThunk('app/initializeApp', async (para
             handleServerAppError(res.data, thunkAPI.dispatch);
         }
 
+    } catch (error) {
+        // @ts-ignore
+        handleServerNetworkError(error, thunkAPI.dispatch)
+    }
+})
+
+
+const slice = createSlice({
+    name: 'app',
+    initialState: {
+        status: 'succeeded' as RequestStatusType,
+        error: null as AppErrorType,
+        isInitialized: false as boolean
+    },
     } catch (err) {
         const error = err as AxiosError
         handleServerNetworkError(error, thunkAPI.dispatch)
