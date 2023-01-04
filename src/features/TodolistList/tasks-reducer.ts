@@ -39,8 +39,8 @@ export const addTaskTC = createAsyncThunk('tasks/addTask', async (param: { todol
             handleServerAppError(res.data, dispatch);
             return rejectWithValue(null)
         }
-    } catch (error) {
-        // @ts-ignore
+    } catch (err) {
+        const error = err as AxiosError
         handleServerNetworkError(error, dispatch)
         return rejectWithValue(null)
     }
